@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>Smart Mobility Robot for Autonomous Object Transportation in Factory Warehouses</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+    rel="stylesheet"
+  />
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            primary: "#135bec",
+            "background-light": "#f6f6f8",
+            "background-dark": "#101622",
+            danger: "#ef4444",
+          },
+          fontFamily: {
+            display: ["Space Grotesk"],
+          },
+          borderRadius: {
+            DEFAULT: "0.25rem",
+            lg: "0.5rem",
+            xl: "0.75rem",
+            full: "9999px",
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    body {
+      font-family: "Space Grotesk", sans-serif;
+    }
+    .material-symbols-outlined {
+      font-variation-settings: "FILL" 0, "wght" 500, "GRAD" 0, "opsz" 24;
+    }
+    .diagram-box {
+      border: 2px solid #334155;
+      border-radius: 0.5rem;
+      padding: 0.9rem;
+      background: #ffffff;
+      color: #0f172a;
+      text-align: center;
+      font-weight: 700;
+    }
+    .dark .diagram-box {
+      background: rgba(15, 23, 42, 0.7);
+      color: #e2e8f0;
+      border-color: #475569;
+    }
+    .diagram-motor {
+      border: 2px solid #475569;
+      border-radius: 0.5rem;
+      padding: 0.75rem;
+      background: #e2e8f0;
+      color: #0f172a;
+      text-align: center;
+      font-weight: 700;
+      min-width: 90px;
+    }
+    .dark .diagram-motor {
+      background: #1e293b;
+      color: #e2e8f0;
+      border-color: #64748b;
+    }
+    .diagram-arrow {
+      color: #2563eb;
+      font-size: 1.6rem;
+      line-height: 1;
+      font-weight: 900;
+    }
+    .dark .diagram-arrow {
+      color: #60a5fa;
+    }
+  </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen flex flex-col lg:flex-row overflow-x-hidden">
+  <aside class="w-full lg:w-64 border-b lg:border-b-0 lg:border-r border-slate-200 dark:border-slate-800 flex flex-col justify-between bg-white dark:bg-background-dark">
+    <div class="flex flex-col gap-6 p-6">
+      <div class="flex gap-3 items-center">
+        <div class="bg-primary/20 rounded-full p-2 flex items-center justify-center">
+          <span class="material-symbols-outlined text-primary">precision_manufacturing</span>
+        </div>
+        <div class="flex flex-col">
+          <h1 class="text-slate-900 dark:text-white text-base font-bold leading-none">SMR-402</h1>
+          <p class="text-slate-500 dark:text-slate-400 text-xs mt-1">Industrial Mobility</p>
+        </div>
+      </div>
+      <nav class="flex flex-col gap-2">
+        <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-900 dark:text-white" href="/dashboard">
+          <span class="material-symbols-outlined">dashboard</span>
+          <p class="text-sm font-medium">Dashboard</p>
+        </a>
+        <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-danger" href="/emergency">
+          <span class="material-symbols-outlined">dangerous</span>
+          <p class="text-sm font-medium">Emergency Stop</p>
+        </a>
+        <div class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-primary text-white">
+          <span class="material-symbols-outlined">description</span>
+          <p class="text-sm font-medium">Project Detail</p>
+        </div>
+      </nav>
+    </div>
+    <div class="p-6 mt-auto">
+      <button class="w-full flex items-center justify-center gap-2 rounded-lg h-11 bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white text-sm font-bold border border-slate-200 dark:border-slate-700 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors" id="logout-button">
+        <span class="material-symbols-outlined text-sm">logout</span>
+        <span>Logout</span>
+      </button>
+    </div>
+  </aside>
+
+  <main class="flex-1 flex flex-col lg:h-screen overflow-y-auto">
+    <header class="border-b border-slate-200 dark:border-slate-800 px-4 sm:px-8 py-4 bg-white dark:bg-background-dark sticky top-0 z-10">
+      <h2 class="text-slate-900 dark:text-white text-lg sm:text-xl font-bold tracking-tight">
+        Smart Mobility Robot for Autonomous Object Transportation in Factory Warehouses
+      </h2>
+      <p class="text-xs text-slate-500 mt-1">Project Detail Page</p>
+    </header>
+
+    <div class="p-4 sm:p-8 flex flex-col gap-5">
+      <section class="bg-white dark:bg-slate-900/50 p-6 rounded-xl border border-slate-200 dark:border-slate-800">
+        <h3 class="text-primary text-sm font-bold uppercase tracking-wider mb-2">Abstract</h3>
+        <p class="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
+          The Smart Mobility Robot is designed to automate object transportation in factory warehouses using a Raspberry Pi 5 based control system.
+          The robot is driven by planetary gear motors connected to a motor driver, which provide smooth differential drive movement for navigation.
+          The system operates in two modes: Autonomous Mode and Remote Control Mode, allowing flexible operation depending on the task.
+          In autonomous mode, a camera module scans QR codes to identify locations such as Room 1 and Room 2, enabling the robot to navigate automatically along predefined routes.
+          An OLED display shows the current operating mode, robot location, and movement status, while a touch sensor is used to switch between modes.
+          In remote control mode, the robot can be manually operated using a FlySky transmitter with an FS-iA6B receiver, making the system suitable for efficient and intelligent warehouse automation.
+        </p>
+      </section>
+
+      <section class="bg-white dark:bg-slate-900/50 p-6 rounded-xl border border-slate-200 dark:border-slate-800">
+        <h3 class="text-primary text-sm font-bold uppercase tracking-wider mb-3">Components Used</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+          <div class="bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700 rounded-lg p-4">
+            <p class="font-bold">Processing Unit</p>
+            <p>Raspberry Pi 5</p>
+            <p>MicroSD Card (OS Storage)</p>
+          </div>
+          <div class="bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700 rounded-lg p-4">
+            <p class="font-bold">Motion System</p>
+            <p>Planetary Gear Motors (4 Motors)</p>
+            <p>Motor Driver (BTS7960 or 20D Dual Motor Driver)</p>
+            <p>Wheels and Robot Chassis</p>
+          </div>
+          <div class="bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700 rounded-lg p-4">
+            <p class="font-bold">Communication and Control</p>
+            <p>FlySky FS-i6 Transmitter</p>
+            <p>FS-iA6B Receiver</p>
+            <p>PWM / ModBus Communication Interface</p>
+          </div>
+          <div class="bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700 rounded-lg p-4">
+            <p class="font-bold">Sensors</p>
+            <p>QR Camera Module (Raspberry Pi Camera)</p>
+            <p>Touch Sensor (TTP223)</p>
+            <p>Optional Ultrasonic Sensors (Obstacle detection)</p>
+          </div>
+          <div class="bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700 rounded-lg p-4">
+            <p class="font-bold">Display and Interface</p>
+            <p>OLED Display (I2C SSD1306)</p>
+          </div>
+          <div class="bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700 rounded-lg p-4">
+            <p class="font-bold">Power System</p>
+            <p>12V Rechargeable Battery</p>
+            <p>Voltage Regulator (12V to 5V)</p>
+          </div>
+          <div class="md:col-span-2 bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700 rounded-lg p-4">
+            <p class="font-bold">Additional Components</p>
+            <p>Wiring harness, Motor brackets, Robot chassis frame</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="bg-white dark:bg-slate-900/50 p-6 rounded-xl border border-slate-200 dark:border-slate-800">
+        <h3 class="text-primary text-sm font-bold uppercase tracking-wider mb-3">System Working Principle</h3>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 text-sm">
+          <div class="bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700 rounded-lg p-4">
+            <p class="font-bold mb-2">Mode 1: Autonomous Navigation Mode</p>
+            <ol class="list-decimal list-inside space-y-1 text-slate-700 dark:text-slate-300">
+              <li>System powers on and initializes modules.</li>
+              <li>OLED shows current status and mode.</li>
+              <li>Camera scans QR code for destination (Room 1 / Room 2).</li>
+              <li>Raspberry Pi processes destination route map.</li>
+              <li>Robot navigates using differential motor control.</li>
+              <li>OLED shows mode, destination, and status.</li>
+              <li>After delivery, robot returns to start position.</li>
+            </ol>
+          </div>
+          <div class="bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700 rounded-lg p-4">
+            <p class="font-bold mb-2">Mode 2: Remote Control Mode</p>
+            <ul class="list-disc list-inside space-y-1 text-slate-700 dark:text-slate-300">
+              <li>Touch sensor (TTP223) switches Autonomous and Remote mode.</li>
+              <li>Operator uses FlySky FS-i6 transmitter.</li>
+              <li>FS-iA6B receiver sends control signal to Raspberry Pi.</li>
+              <li>Robot moves manually based on operator commands.</li>
+            </ul>
+            <p class="font-bold mt-4 mb-1">OLED Display Information</p>
+            <pre class="text-xs bg-slate-900 text-slate-100 rounded p-3 overflow-auto">Mode : Autonomous
+Location : Warehouse
+Target : Room 1
+Status : Moving</pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="bg-white dark:bg-slate-900/50 p-6 rounded-xl border border-slate-200 dark:border-slate-800">
+        <h3 class="text-primary text-sm font-bold uppercase tracking-wider mb-3">Block Diagram</h3>
+        <div class="flex flex-col items-center gap-4">
+          <div class="diagram-box w-full max-w-xs">Camera Module<br />QR Code Scan</div>
+          <div class="diagram-arrow">&darr;</div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 w-full max-w-3xl">
+            <div class="diagram-box">Touch Sensor</div>
+            <div class="diagram-box">Ultrasonic Sensor</div>
+            <div class="diagram-box">OLED Display</div>
+          </div>
+          <div class="flex items-center justify-center gap-16 sm:gap-32 w-full max-w-3xl">
+            <span class="diagram-arrow">&darr;</span>
+            <span class="diagram-arrow">&darr;</span>
+            <span class="diagram-arrow">&darr;</span>
+          </div>
+
+          <div class="diagram-box w-full max-w-xs">FlySky Receiver<br />PWM Signal</div>
+          <div class="diagram-arrow">&darr;</div>
+          <div class="diagram-box w-full max-w-sm">Raspberry Pi 5<br />Main Controller</div>
+          <div class="diagram-arrow">&darr;</div>
+          <div class="diagram-box w-full max-w-xs">Motor Driver<br />BTS7960</div>
+          <div class="diagram-arrow">&darr;</div>
+
+          <div class="flex flex-wrap gap-2 justify-center items-center">
+            <div class="diagram-motor">Motor 1</div>
+            <span class="diagram-arrow">&rarr;</span>
+            <div class="diagram-motor">Motor 2</div>
+            <span class="diagram-arrow">&rarr;</span>
+            <div class="diagram-motor">Motor 3</div>
+            <span class="diagram-arrow">&rarr;</span>
+            <div class="diagram-motor">Motor 4</div>
+          </div>
+
+          <div class="diagram-arrow">&uarr;</div>
+          <div class="diagram-box w-full max-w-xs">12V Battery<br />(Motor Power)</div>
+        </div>
+      </section>
+
+      <section class="bg-white dark:bg-slate-900/50 p-6 rounded-xl border border-slate-200 dark:border-slate-800">
+        <h3 class="text-primary text-sm font-bold uppercase tracking-wider mb-3">Applications</h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+          <div class="bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700 rounded-lg p-4">
+            <p class="font-bold mb-1">Industrial Applications</p>
+            <p>Factory warehouse automation</p>
+            <p>Material transport inside industries</p>
+            <p>Smart manufacturing systems</p>
+          </div>
+          <div class="bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700 rounded-lg p-4">
+            <p class="font-bold mb-1">Logistics Applications</p>
+            <p>Inventory movement</p>
+            <p>Package transport robots</p>
+            <p>Storage automation</p>
+          </div>
+          <div class="bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700 rounded-lg p-4">
+            <p class="font-bold mb-1">Research and Education</p>
+            <p>Autonomous robotics research</p>
+            <p>Industrial automation prototyping</p>
+            <p>Robotics and embedded learning</p>
+            <p>AI and automation research</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="bg-white dark:bg-slate-900/50 p-6 rounded-xl border border-slate-200 dark:border-slate-800">
+        <h3 class="text-primary text-sm font-bold uppercase tracking-wider mb-3">Project Done By</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+          <article class="bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700 rounded-lg p-4">
+            <p class="font-bold text-slate-900 dark:text-white">Boyina Hasan</p>
+            <p>Department of Electronics and Instrumentation Engineering</p>
+            <p>SRM Institute of Science and Technology, Chennai, India</p>
+            <p>Email: boyinahasan13@gmail.com</p>
+            <p>Mobile: 9182736781</p>
+          </article>
+
+          <article class="bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700 rounded-lg p-4">
+            <p class="font-bold text-slate-900 dark:text-white">Sree Pranav Sangeneni</p>
+            <p>Department of Electronics and Instrumentation Engineering</p>
+            <p>SRM Institute of Science and Technology, Chennai, India</p>
+            <p>Email: ss6971@srmist.edu.in</p>
+            <p>Mobile: 9600045660</p>
+          </article>
+
+          <article class="bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700 rounded-lg p-4">
+            <p class="font-bold text-slate-900 dark:text-white">Rohan Bandari</p>
+            <p>Department of Electronics and Instrumentation Engineering</p>
+            <p>SRM Institute of Science and Technology, Chennai, India</p>
+            <p>Email: rohan1bandari@gmail.com</p>
+            <p>Mobile: 9059604932</p>
+          </article>
+
+          <article class="bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700 rounded-lg p-4">
+            <p class="font-bold text-slate-900 dark:text-white">Faculty Adviser: Dr. J. Sam Jeba Kumar</p>
+            <p>Department of Electronics and Instrumentation Engineering</p>
+            <p>SRM Institute of Science and Technology, Chennai, India</p>
+            <p>Email: jebakumj@srmist.edu.in</p>
+            <p>Mobile: 9443170705</p>
+          </article>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    (function () {
+      const TOKEN_KEY = "smrSessionToken";
+      const USER_KEY = "smrSessionUser";
+      const token = localStorage.getItem(TOKEN_KEY) || localStorage.getItem("smrToken");
+
+      if (!token) {
+        window.location.replace("/");
+        return;
+      }
+      if (!localStorage.getItem(TOKEN_KEY)) {
+        localStorage.setItem(TOKEN_KEY, token);
+      }
+
+      document.getElementById("logout-button").addEventListener("click", function () {
+        localStorage.removeItem(TOKEN_KEY);
+        localStorage.removeItem("smrToken");
+        localStorage.removeItem(USER_KEY);
+        window.location.href = "/";
+      });
+    })();
+  </script>
+</body>
+</html>
+

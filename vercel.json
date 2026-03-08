@@ -1,0 +1,22 @@
+{
+  "version": 2,
+  "cleanUrls": true,
+  "rewrites": [
+    {
+      "source": "/",
+      "destination": "/login.html"
+    },
+    {
+      "source": "/dashboard",
+      "destination": "/code.html"
+    },
+    {
+      "source": "/emergency",
+      "destination": "/emergency.html"
+    },
+    {
+      "source": "/project-detail",
+      "destination": "/project-detail.html"
+    }
+  ]
+}

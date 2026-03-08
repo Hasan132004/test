@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>Smart Mobility Robot - Control Interface</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+    rel="stylesheet"
+  />
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            primary: "#135bec",
+            "background-light": "#f6f6f8",
+            "background-dark": "#101622",
+            danger: "#ef4444",
+          },
+          fontFamily: {
+            display: ["Space Grotesk"],
+          },
+          borderRadius: {
+            DEFAULT: "0.25rem",
+            lg: "0.5rem",
+            xl: "0.75rem",
+            full: "9999px",
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    body {
+      font-family: "Space Grotesk", sans-serif;
+    }
+    .material-symbols-outlined {
+      font-variation-settings: "FILL" 0, "wght" 500, "GRAD" 0, "opsz" 24;
+    }
+  </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen flex flex-col lg:flex-row overflow-x-hidden">
+  <aside class="w-full lg:w-64 border-b lg:border-b-0 lg:border-r border-slate-200 dark:border-slate-800 flex flex-col justify-between bg-white dark:bg-background-dark">
+    <div class="flex flex-col gap-6 p-6">
+      <div class="flex gap-3 items-center">
+        <div class="bg-primary/20 rounded-full p-2 flex items-center justify-center">
+          <span class="material-symbols-outlined text-primary">precision_manufacturing</span>
+        </div>
+        <div class="flex flex-col">
+          <h1 class="text-slate-900 dark:text-white text-base font-bold leading-none">SMR-402</h1>
+          <p class="text-slate-500 dark:text-slate-400 text-xs mt-1">Industrial Mobility</p>
+        </div>
+      </div>
+      <nav class="flex flex-col gap-2">
+        <div class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-primary text-white">
+          <span class="material-symbols-outlined">dashboard</span>
+          <p class="text-sm font-medium">Dashboard</p>
+        </div>
+        <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-danger" href="/emergency">
+          <span class="material-symbols-outlined">dangerous</span>
+          <p class="text-sm font-medium">Emergency Stop</p>
+        </a>
+        <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-900 dark:text-white" href="/project-detail">
+          <span class="material-symbols-outlined">description</span>
+          <p class="text-sm font-medium">Project Detail</p>
+        </a>
+      </nav>
+    </div>
+    <div class="p-6 mt-auto flex flex-col gap-3">
+      <button class="w-full flex items-center justify-center gap-2 rounded-lg h-11 bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white text-sm font-bold border border-slate-200 dark:border-slate-700 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors" id="refresh-button">
+        <span class="material-symbols-outlined text-sm">sync</span>
+        <span>Refresh</span>
+      </button>
+      <div class="flex flex-col gap-1">
+        <label class="text-[11px] font-bold uppercase tracking-wide text-slate-500 px-1" for="send-data-email-input">
+          Mail ID
+        </label>
+        <input class="w-full rounded-lg h-10 px-3 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 text-sm text-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary" id="send-data-email-input" type="email" placeholder="Enter mail ID (optional)" />
+      </div>
+      <div class="grid grid-cols-1 gap-2">
+        <div class="flex flex-col gap-1">
+          <label class="text-[11px] font-bold uppercase tracking-wide text-slate-500 px-1" for="send-data-from-input">
+            From
+          </label>
+          <input class="w-full rounded-lg h-10 px-3 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 text-xs text-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary" id="send-data-from-input" type="datetime-local" />
+        </div>
+        <div class="flex flex-col gap-1">
+          <label class="text-[11px] font-bold uppercase tracking-wide text-slate-500 px-1" for="send-data-to-input">
+            To
+          </label>
+          <input class="w-full rounded-lg h-10 px-3 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 text-xs text-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary" id="send-data-to-input" type="datetime-local" />
+        </div>
+      </div>
+      <button class="w-full flex items-center justify-center gap-2 rounded-lg h-11 bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white text-sm font-bold border border-slate-200 dark:border-slate-700 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed" id="send-data-email-button">
+        <span class="material-symbols-outlined text-sm">mail</span>
+        <span>Send PDF Email</span>
+      </button>
+      <p class="text-[11px] min-h-4 text-slate-500 text-center" id="send-data-email-message"></p>
+      <button class="w-full flex items-center justify-center gap-2 rounded-lg h-11 bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white text-sm font-bold border border-slate-200 dark:border-slate-700 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors" id="logout-button">
+        <span class="material-symbols-outlined text-sm">logout</span>
+        <span>Logout</span>
+      </button>
+    </div>
+  </aside>
+
+  <main class="flex-1 flex flex-col lg:h-screen overflow-y-auto">
+    <header class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 border-b border-slate-200 dark:border-slate-800 px-4 sm:px-8 py-4 bg-white dark:bg-background-dark sticky top-0 z-10">
+      <div class="flex flex-col gap-2">
+        <h2 class="text-slate-900 dark:text-white text-lg sm:text-xl font-bold tracking-tight">
+          Smart Mobility Robot for Autonomous Object Transportation
+        </h2>
+        <div class="flex items-center gap-3">
+          <span class="px-2 py-1 rounded bg-green-500/10 text-green-500 text-[10px] font-bold uppercase tracking-wider border border-green-500/20 leading-none" id="system-online-badge">
+            System Online
+          </span>
+          <span class="text-xs text-slate-500">Operator: <span class="font-semibold text-slate-300" id="operator-name">-</span></span>
+        </div>
+      </div>
+      <div class="flex flex-wrap items-center gap-2 sm:gap-4">
+        <div class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
+          <span class="material-symbols-outlined text-primary text-xl">battery_charging_90</span>
+          <span class="text-sm font-bold" id="battery-value">--%</span>
+        </div>
+        <div class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
+          <span class="material-symbols-outlined text-primary text-xl">wifi</span>
+          <span class="text-sm font-bold" id="latency-value">--ms</span>
+        </div>
+        <div class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
+          <span class="material-symbols-outlined text-primary text-xl">shield</span>
+          <span class="text-sm font-bold" id="security-value">Secured</span>
+        </div>
+      </div>
+    </header>
+
+    <div class="p-4 sm:p-8 flex flex-col gap-8">
+      <div class="flex flex-col gap-6">
+        <div class="flex flex-col gap-4">
+          <div class="flex items-center justify-between">
+            <span class="text-[11px] uppercase tracking-widest text-slate-500 font-bold">Current Date & Time</span>
+            <span class="text-xs font-bold text-slate-900 dark:text-white" id="current-datetime">-</span>
+          </div>
+          <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+            <h3 class="text-slate-900 dark:text-white text-lg font-bold flex items-center gap-2">
+              <span class="material-symbols-outlined text-danger">videocam</span>
+              Live Video Feed
+            </h3>
+            <div class="flex gap-2">
+              <span class="text-xs bg-slate-100 dark:bg-slate-800 px-2 py-1 rounded border border-slate-200 dark:border-slate-700 font-medium" id="camera-name">CAM-01: FRONT</span>
+              <span class="text-xs bg-slate-100 dark:bg-slate-800 px-2 py-1 rounded border border-slate-200 dark:border-slate-700 font-medium" id="stream-quality">1080p @ 60fps</span>
+            </div>
+          </div>
+          <div class="relative aspect-video max-w-4xl mx-auto w-full rounded-xl overflow-hidden border-2 border-slate-200 dark:border-slate-800 shadow-2xl bg-black group">
+            <div class="absolute inset-0 bg-cover bg-center opacity-80" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDjKDvInCgCoJR5cKzV2EvAfGsmRbmcWnN_uy0_QTRdqbW2xViwiumbgwx4EQX_pMQHnXz5Zd3wRAGpa_c-7UbEHbmND8LDIvC7rPFxz9NhhSnv55g_MdwBgrPkmsteaUBNHaYliZVpXLeh8sqWgQQjj8fdrRR83P3U7kJGWzW4K3Kznos1PNjSVfpFOgAxQJam0emFV8uCA4IPDa_gdHRShV-s_dq-sRWSoVa8vZ5GeLNOxcNVnorASINvajUbdw6L2lnQNACOXPY');"></div>
+            <div class="absolute inset-0 pointer-events-none flex flex-col justify-between p-6">
+              <div class="flex justify-between items-start">
+                <div class="border-l-2 border-t-2 border-primary/50 w-8 h-8"></div>
+                <div class="border-r-2 border-t-2 border-primary/50 w-8 h-8"></div>
+              </div>
+              <div class="flex flex-col items-center gap-2">
+                <div class="w-1/2 h-0.5 bg-white/20 relative">
+                  <div class="absolute left-1/2 -translate-x-1/2 -top-2 w-0.5 h-4 bg-primary"></div>
+                </div>
+                <span class="text-[10px] font-bold text-white/50 tracking-widest uppercase">Center Alignment HUD</span>
+              </div>
+              <div class="flex justify-between items-end">
+                <div class="border-l-2 border-b-2 border-primary/50 w-8 h-8"></div>
+                <div class="border-r-2 border-b-2 border-primary/50 w-8 h-8"></div>
+              </div>
+            </div>
+            <div class="absolute top-4 right-4 bg-black/60 backdrop-blur-md px-3 py-1 rounded-full flex items-center gap-2 border border-white/10">
+              <div class="w-2 h-2 rounded-full bg-danger animate-pulse"></div>
+              <span class="text-[10px] font-bold text-white tracking-widest">REC LIVE</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="bg-white dark:bg-slate-900/50 p-6 rounded-xl border border-slate-200 dark:border-slate-800 flex items-center gap-4">
+            <div class="size-12 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
+              <span class="material-symbols-outlined text-3xl">smart_toy</span>
+            </div>
+            <div>
+              <p class="text-slate-500 dark:text-slate-400 text-xs font-bold uppercase tracking-wider">Operating Mode</p>
+              <p class="text-slate-900 dark:text-white text-lg font-bold" id="operating-mode">-</p>
+            </div>
+          </div>
+          <div class="bg-white dark:bg-slate-900/50 p-6 rounded-xl border border-slate-200 dark:border-slate-800 flex items-center gap-4">
+            <div class="size-12 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
+              <span class="material-symbols-outlined text-3xl">location_on</span>
+            </div>
+            <div>
+              <p class="text-slate-500 dark:text-slate-400 text-xs font-bold uppercase tracking-wider">Current Location</p>
+              <p class="text-slate-900 dark:text-white text-lg font-bold" id="current-location">-</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="text-xs text-slate-500 text-center">
+        Last Sync: <span class="font-medium text-slate-400" id="last-updated">-</span>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    (function () {
+      const TOKEN_KEY = "smrSessionToken";
+      const USER_KEY = "smrSessionUser";
+
+      const token = localStorage.getItem(TOKEN_KEY) || localStorage.getItem("smrToken");
+      if (!token) {
+        window.location.replace("/");
+        return;
+      }
+      if (!localStorage.getItem(TOKEN_KEY)) {
+        localStorage.setItem(TOKEN_KEY, token);
+      }
+
+      const refs = {
+        systemOnlineBadge: document.getElementById("system-online-badge"),
+        operatorName: document.getElementById("operator-name"),
+        batteryValue: document.getElementById("battery-value"),
+        latencyValue: document.getElementById("latency-value"),
+        securityValue: document.getElementById("security-value"),
+        cameraName: document.getElementById("camera-name"),
+        streamQuality: document.getElementById("stream-quality"),
+        operatingMode: document.getElementById("operating-mode"),
+        currentLocation: document.getElementById("current-location"),
+        currentDateTime: document.getElementById("current-datetime"),
+        lastUpdated: document.getElementById("last-updated"),
+        refreshButton: document.getElementById("refresh-button"),
+        sendDataEmailInput: document.getElementById("send-data-email-input"),
+        sendDataFromInput: document.getElementById("send-data-from-input"),
+        sendDataToInput: document.getElementById("send-data-to-input"),
+        sendDataEmailButton: document.getElementById("send-data-email-button"),
+        sendDataEmailMessage: document.getElementById("send-data-email-message"),
+        logoutButton: document.getElementById("logout-button"),
+      };
+      const statusRows = [];
+      const MAX_STATUS_ROWS = 50;
+
+      refs.operatorName.textContent = localStorage.getItem(USER_KEY) || "operator";
+
+      function clearSessionAndRedirect() {
+        localStorage.removeItem(TOKEN_KEY);
+        localStorage.removeItem("smrToken");
+        localStorage.removeItem(USER_KEY);
+        window.location.href = "/";
+      }
+
+      function formatTimestamp(value) {
+        if (!value) return "-";
+        const date = new Date(value);
+        if (Number.isNaN(date.getTime())) return "-";
+        return `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
+      }
+
+      function toDatetimeLocalValue(date) {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, "0");
+        const day = String(date.getDate()).padStart(2, "0");
+        const hours = String(date.getHours()).padStart(2, "0");
+        const minutes = String(date.getMinutes()).padStart(2, "0");
+        return `${year}-${month}-${day}T${hours}:${minutes}`;
+      }
+
+      function parseDatetimeLocal(value) {
+        const safeValue = String(value || "").trim();
+        if (!safeValue) {
+          return null;
+        }
+        const parsed = new Date(safeValue);
+        if (Number.isNaN(parsed.getTime())) {
+          return null;
+        }
+        return parsed;
+      }
+
+      function updateCurrentDateTime() {
+        const now = new Date();
+        refs.currentDateTime.textContent = now.toLocaleString();
+      }
+
+      function normalizeLocationForMode(mode, location) {
+        const safeMode = String(mode || "");
+        if (/^mode\s*2\b/i.test(safeMode)) {
+          return "No location";
+        }
+
+        const safeLocation = String(location || "").trim();
+        return safeLocation || "No location";
+      }
+
+      function normalizeModeLabel(mode) {
+        const safeMode = String(mode || "");
+        if (/^mode\s*1\b/i.test(safeMode)) {
+          return "Mode 1";
+        }
+        if (/^mode\s*2\b/i.test(safeMode)) {
+          return "Mode 2";
+        }
+        return safeMode || "Unknown";
+      }
+
+      function rememberStatusRow(data) {
+        const nowIso = new Date().toISOString();
+        const row = {
+          time: nowIso,
+          mode: normalizeModeLabel(data.operatingMode),
+          location: normalizeLocationForMode(data.operatingMode, data.currentLocation),
+        };
+        const previous = statusRows[statusRows.length - 1];
+        if (
+          previous &&
+          previous.time === row.time &&
+          previous.mode === row.mode &&
+          previous.location === row.location
+        ) {
+          return;
+        }
+
+        statusRows.push(row);
+        if (statusRows.length > MAX_STATUS_ROWS) {
+          statusRows.splice(0, statusRows.length - MAX_STATUS_ROWS);
+        }
+      }
+
+      function setDataEmailMessage(text, tone) {
+        const tones = {
+          neutral: "text-slate-500",
+          success: "text-green-500",
+          error: "text-red-500",
+        };
+        refs.sendDataEmailMessage.textContent = text;
+        refs.sendDataEmailMessage.className = `text-[11px] min-h-4 text-center ${tones[tone || "neutral"]}`;
+      }
+
+      function isValidEmail(value) {
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(value || "").trim());
+      }
+
+      async function sendDataEmail() {
+        const typedEmail = String(refs.sendDataEmailInput.value || "").trim().toLowerCase();
+        if (typedEmail && !isValidEmail(typedEmail)) {
+          setDataEmailMessage("Enter a valid mail ID.", "error");
+          return;
+        }
+
+        const fromDate = parseDatetimeLocal(refs.sendDataFromInput.value);
+        const toDate = parseDatetimeLocal(refs.sendDataToInput.value);
+        if (fromDate && toDate && fromDate.getTime() > toDate.getTime()) {
+          setDataEmailMessage("From time must be before To time.", "error");
+          return;
+        }
+
+        refs.sendDataEmailButton.disabled = true;
+        setDataEmailMessage("Sending PDF email...", "neutral");
+
+        const currentRow = {
+          time: new Date().toISOString(),
+          mode: normalizeModeLabel(refs.operatingMode.textContent),
+          location: normalizeLocationForMode(
+            refs.operatingMode.textContent,
+            refs.currentLocation.textContent
+          ),
+        };
+
+        const sourceRows = statusRows.length
+          ? [...statusRows.slice(-MAX_STATUS_ROWS), currentRow]
+          : [currentRow];
+        const rowsToSend = sourceRows.filter(function (row) {
+          const rowDate = new Date(row.time);
+          if (Number.isNaN(rowDate.getTime())) {
+            return false;
+          }
+          if (fromDate && rowDate.getTime() < fromDate.getTime()) {
+            return false;
+          }
+          if (toDate && rowDate.getTime() > toDate.getTime()) {
+            return false;
+          }
+          return true;
+        });
+
+        if (!rowsToSend.length) {
+          setDataEmailMessage("No data found in selected From-To range.", "error");
+          refs.sendDataEmailButton.disabled = false;
+          return;
+        }
+
+        const payload = {
+          rows: rowsToSend,
+        };
+        if (typedEmail) {
+          payload.toEmail = typedEmail;
+        }
+
+        try {
+          const response = await fetch("/api/send-mode-table", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${localStorage.getItem(TOKEN_KEY)}`,
+            },
+            body: JSON.stringify(payload),
+          });
+
+          const data = await response.json().catch(function () {
+            return { ok: false, error: "Unable to read send email response." };
+          });
+
+          if (response.status === 401) {
+            clearSessionAndRedirect();
+            return;
+          }
+
+          if (!response.ok || !data.ok) {
+            throw new Error(data.error || "Failed to send data email.");
+          }
+
+          setDataEmailMessage(data.message || "Data email sent.", "success");
+        } catch (error) {
+          setDataEmailMessage(error.message, "error");
+        } finally {
+          refs.sendDataEmailButton.disabled = false;
+        }
+      }
+
+      async function loadStatus(silent) {
+        if (!silent) {
+          refs.lastUpdated.textContent = "Syncing...";
+        }
+
+        const response = await fetch("/api/status", {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem(TOKEN_KEY)}`,
+          },
+        });
+
+        const data = await response.json().catch(function () {
+          return { ok: false, error: "Unable to read server status response." };
+        });
+
+        if (response.status === 401) {
+          clearSessionAndRedirect();
+          return;
+        }
+
+        if (!response.ok || !data.ok) {
+          throw new Error(data.error || "Status refresh failed.");
+        }
+
+        refs.systemOnlineBadge.textContent = data.systemOnline ? "System Online" : "System Offline";
+        refs.systemOnlineBadge.className = data.systemOnline
+          ? "px-2 py-1 rounded bg-green-500/10 text-green-500 text-[10px] font-bold uppercase tracking-wider border border-green-500/20 leading-none"
+          : "px-2 py-1 rounded bg-red-500/10 text-red-500 text-[10px] font-bold uppercase tracking-wider border border-red-500/20 leading-none";
+
+        refs.batteryValue.textContent = `${data.batteryPercent}%`;
+        refs.latencyValue.textContent = `${data.networkLatencyMs}ms`;
+        refs.securityValue.textContent = data.securityState || "Secured";
+        refs.cameraName.textContent = data.liveFeed && data.liveFeed.camera ? data.liveFeed.camera : "CAM-01: FRONT";
+        refs.streamQuality.textContent = data.liveFeed && data.liveFeed.stream ? data.liveFeed.stream : "1080p @ 60fps";
+        refs.operatingMode.textContent = data.operatingMode || "-";
+        const normalizedLocation = normalizeLocationForMode(
+          data.operatingMode,
+          data.currentLocation
+        );
+        refs.currentLocation.textContent = normalizedLocation;
+        refs.lastUpdated.textContent = formatTimestamp(data.lastUpdated);
+        rememberStatusRow({
+          lastUpdated: data.lastUpdated,
+          operatingMode: data.operatingMode,
+          currentLocation: normalizedLocation,
+        });
+      }
+
+      refs.refreshButton.addEventListener("click", function () {
+        loadStatus(false).catch(function (error) {
+          refs.lastUpdated.textContent = error.message;
+        });
+      });
+      refs.sendDataEmailButton.addEventListener("click", sendDataEmail);
+      refs.logoutButton.addEventListener("click", clearSessionAndRedirect);
+
+      const now = new Date();
+      refs.sendDataToInput.value = toDatetimeLocalValue(now);
+      refs.sendDataFromInput.value = toDatetimeLocalValue(
+        new Date(now.getTime() - 30 * 60 * 1000)
+      );
+      updateCurrentDateTime();
+      setInterval(updateCurrentDateTime, 1000);
+
+      loadStatus(false).catch(function (error) {
+        refs.lastUpdated.textContent = error.message;
+      });
+      setInterval(function () {
+        loadStatus(true).catch(function () {});
+      }, 15000);
+    })();
+  </script>
+</body>
+</html>

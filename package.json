@@ -1,0 +1,13 @@
+{
+  "name": "smart-mobility-control",
+  "version": "1.0.0",
+  "private": true,
+  "type": "commonjs",
+  "scripts": {
+    "dev": "node local-dev-server.js",
+    "start": "node local-dev-server.js"
+  },
+  "dependencies": {
+    "nodemailer": "^6.9.16"
+  }
+}

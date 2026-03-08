@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>Smart Mobility Control - Secure Login</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+    rel="stylesheet"
+  />
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            primary: "#135bec",
+            "background-light": "#f6f6f8",
+            "background-dark": "#101622",
+          },
+          fontFamily: {
+            display: ["Space Grotesk"],
+          },
+          borderRadius: {
+            DEFAULT: "0.25rem",
+            lg: "0.5rem",
+            xl: "0.75rem",
+            full: "9999px",
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    :root {
+      --login-scale: 1;
+    }
+    .grid-bg {
+      background-image: radial-gradient(circle at 2px 2px, rgba(19, 91, 236, 0.05) 1px, transparent 0);
+      background-size: 32px 32px;
+    }
+    .circuit-lines {
+      background: linear-gradient(90deg, rgba(19, 91, 236, 0.03) 1px, transparent 1px) 0 0 / 100px 100px,
+        linear-gradient(0deg, rgba(19, 91, 236, 0.03) 1px, transparent 1px) 0 0 / 100px 100px;
+    }
+    .enter {
+      animation: enter 420ms ease-out both;
+    }
+    .fit-login {
+      transform: scale(var(--login-scale));
+      transform-origin: center center;
+    }
+    @media (max-height: 900px) {
+      :root {
+        --login-scale: 0.92;
+      }
+    }
+    @media (max-height: 780px) {
+      :root {
+        --login-scale: 0.84;
+      }
+    }
+    @keyframes enter {
+      from {
+        opacity: 0;
+        transform: translateY(14px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 h-[100svh] flex items-center justify-center relative overflow-hidden">
+  <div class="absolute inset-0 grid-bg pointer-events-none"></div>
+  <div class="absolute inset-0 circuit-lines pointer-events-none"></div>
+  <div class="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/10 blur-[120px] rounded-full"></div>
+  <div class="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-primary/5 blur-[120px] rounded-full"></div>
+
+  <div class="fit-login relative w-full max-w-[980px] px-3 sm:px-4 py-2 sm:py-3 flex flex-col items-center enter">
+    <div class="flex flex-col items-center mb-3 sm:mb-4 gap-2">
+      <div class="w-16 h-16 sm:w-18 sm:h-18 bg-primary/10 border border-primary/30 rounded-xl flex items-center justify-center text-primary shadow-[0_0_30px_rgba(19,91,236,0.2)]">
+        <span class="material-symbols-outlined text-4xl sm:text-5xl">precision_manufacturing</span>
+      </div>
+      <div class="text-center">
+        <h1 class="text-lg sm:text-xl font-bold tracking-tight text-slate-900 dark:text-white uppercase">
+          Smart <span class="text-primary">Mobility</span> Control
+        </h1>
+        <p class="text-slate-500 dark:text-slate-400 text-[11px] sm:text-xs mt-1 tracking-widest uppercase">Autonomous Systems Interface</p>
+      </div>
+    </div>
+
+    <div class="w-full max-w-[340px] sm:max-w-[360px] bg-white dark:bg-slate-900/50 backdrop-blur-xl border border-slate-200 dark:border-slate-800 rounded-xl shadow-2xl overflow-hidden">
+      <div class="bg-slate-100 dark:bg-slate-800/50 px-4 sm:px-5 py-2.5 flex items-center justify-between border-b border-slate-200 dark:border-slate-800">
+        <div class="flex items-center gap-2">
+          <span class="material-symbols-outlined text-primary text-lg">verified_user</span>
+          <span class="text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300">Secure Access Point</span>
+        </div>
+        <div class="flex gap-1">
+          <div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+          <div class="w-2 h-2 rounded-full bg-slate-700"></div>
+        </div>
+      </div>
+
+      <div class="p-4 sm:p-5">
+        <div id="login-section">
+          <div class="mb-4">
+            <h2 class="text-lg sm:text-xl font-bold text-slate-900 dark:text-white">Operator Login</h2>
+            <p class="text-slate-500 dark:text-slate-400 text-xs">Authentication required for robot command uplink.</p>
+          </div>
+
+          <form class="space-y-3" id="login-form" novalidate>
+            <div class="space-y-1.5">
+              <label class="text-xs font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400 flex items-center gap-2" for="login-id">
+                <span class="material-symbols-outlined text-sm">fingerprint</span>
+                Login ID
+              </label>
+              <input
+                autocomplete="username"
+                class="w-full bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-lg px-3 py-2.5 text-sm text-slate-900 dark:text-white focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all outline-none"
+                id="login-id"
+                placeholder="Enter login ID"
+                required
+                type="text"
+              />
+            </div>
+
+            <div class="space-y-1.5">
+              <label class="text-xs font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400 flex items-center gap-2" for="password">
+                <span class="material-symbols-outlined text-sm">lock_open</span>
+                Secure Password
+              </label>
+              <div class="relative group">
+                <input
+                  autocomplete="current-password"
+                  class="w-full bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-lg px-3 py-2.5 text-sm text-slate-900 dark:text-white focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all outline-none pr-10"
+                  id="password"
+                  placeholder="Enter secure password"
+                  required
+                  type="password"
+                />
+                <button class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-primary transition-colors" id="toggle-password" type="button">
+                  <span class="material-symbols-outlined text-[20px]" id="password-icon">visibility_off</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between text-[11px]">
+              <label class="flex items-center gap-2 cursor-pointer group">
+                <input class="rounded border-slate-300 dark:border-slate-700 bg-transparent text-primary focus:ring-primary" type="checkbox" />
+                <span class="text-slate-500 group-hover:text-slate-300">Remember Terminal</span>
+              </label>
+              <button class="text-primary font-medium hover:underline" id="show-register" type="button">Create Account</button>
+            </div>
+
+            <p class="text-xs font-medium min-h-4 text-slate-400" id="login-message"></p>
+
+            <button class="w-full bg-primary hover:bg-primary/90 text-white font-bold py-2.5 rounded-lg flex items-center justify-center gap-2 transition-all shadow-lg shadow-primary/20 group disabled:opacity-50 disabled:cursor-not-allowed" id="login-submit" type="submit">
+              <span class="uppercase tracking-widest text-xs">Initialize Uplink</span>
+              <span class="material-symbols-outlined text-[20px] group-hover:translate-x-1 transition-transform">bolt</span>
+            </button>
+          </form>
+        </div>
+
+        <div class="hidden" id="register-section">
+          <div class="mb-4">
+            <h2 class="text-lg sm:text-xl font-bold text-slate-900 dark:text-white">Create Account</h2>
+            <p class="text-slate-500 dark:text-slate-400 text-xs">Main account approval code is required to create a new account.</p>
+          </div>
+
+          <form class="space-y-3" id="register-form" novalidate>
+            <div class="space-y-1.5">
+              <label class="text-xs font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400" for="register-name">Full Name</label>
+              <input class="w-full bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-lg px-3 py-2.5 text-sm text-slate-900 dark:text-white focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all outline-none" id="register-name" placeholder="Enter full name" type="text" />
+            </div>
+
+            <div class="space-y-1.5">
+              <label class="text-xs font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400" for="register-login-id">New Login ID</label>
+              <input class="w-full bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-lg px-3 py-2.5 text-sm text-slate-900 dark:text-white focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all outline-none" id="register-login-id" placeholder="name@example.com" type="text" />
+            </div>
+
+            <div class="space-y-1.5">
+              <label class="text-xs font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400" for="register-password">New Password</label>
+              <input class="w-full bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-lg px-3 py-2.5 text-sm text-slate-900 dark:text-white focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all outline-none" id="register-password" placeholder="Create password" type="password" />
+            </div>
+
+            <div class="space-y-1.5">
+              <label class="text-xs font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400" for="approver-email">Approver Gmail</label>
+              <input class="w-full bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-lg px-3 py-2.5 text-sm text-slate-900 dark:text-white focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all outline-none" id="approver-email" placeholder="boyinahasan13@gmail.com" type="email" />
+            </div>
+
+            <div class="space-y-1.5">
+              <button class="w-full bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white font-bold py-2.5 rounded-lg text-xs uppercase tracking-widest border border-slate-200 dark:border-slate-700 disabled:opacity-50 disabled:cursor-not-allowed" id="send-permission" type="button">
+                Send Permission Code
+              </button>
+              <p class="text-[11px] text-slate-500 dark:text-slate-400">A code will be sent to approver Gmail. Enter that code below.</p>
+            </div>
+
+            <div class="space-y-1.5">
+              <label class="text-xs font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400" for="permission-code">Permission Code</label>
+              <input class="w-full bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-lg px-3 py-2.5 text-sm text-slate-900 dark:text-white focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all outline-none" id="permission-code" placeholder="Enter approval code" type="text" />
+            </div>
+
+            <p class="text-xs font-medium min-h-4 text-slate-400" id="register-message"></p>
+
+            <button class="w-full bg-primary hover:bg-primary/90 text-white font-bold py-2.5 rounded-lg text-xs uppercase tracking-widest disabled:opacity-50 disabled:cursor-not-allowed" id="register-submit" type="submit">
+              Create Account
+            </button>
+            <button class="w-full bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white font-bold py-2.5 rounded-lg text-xs uppercase tracking-widest border border-slate-200 dark:border-slate-700" id="back-to-login" type="button">
+              Back to Login
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <div class="px-4 sm:px-5 py-2.5 bg-slate-100 dark:bg-slate-800/30 border-t border-slate-200 dark:border-slate-800 flex justify-between items-center">
+        <div class="flex flex-col">
+          <span class="text-[10px] uppercase text-slate-500 font-bold tracking-tighter">System Status</span>
+          <span class="text-[10px] text-green-500 font-bold tracking-widest uppercase">All Modules Nominal</span>
+        </div>
+        <div class="flex gap-4">
+          <span class="material-symbols-outlined text-slate-400 text-lg">settings_input_component</span>
+          <span class="material-symbols-outlined text-slate-400 text-lg">wifi_tethering</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    (function () {
+      const TOKEN_KEY = "smrSessionToken";
+      const USER_KEY = "smrSessionUser";
+
+      const loginSection = document.getElementById("login-section");
+      const registerSection = document.getElementById("register-section");
+      const showRegisterButton = document.getElementById("show-register");
+      const backToLoginButton = document.getElementById("back-to-login");
+      const loginForm = document.getElementById("login-form");
+      const registerForm = document.getElementById("register-form");
+      const loginIdInput = document.getElementById("login-id");
+      const passwordInput = document.getElementById("password");
+      const togglePasswordButton = document.getElementById("toggle-password");
+      const passwordIcon = document.getElementById("password-icon");
+      const submitButton = document.getElementById("login-submit");
+      const message = document.getElementById("login-message");
+      const registerNameInput = document.getElementById("register-name");
+      const registerLoginIdInput = document.getElementById("register-login-id");
+      const registerPasswordInput = document.getElementById("register-password");
+      const approverEmailInput = document.getElementById("approver-email");
+      const sendPermissionButton = document.getElementById("send-permission");
+      const permissionCodeInput = document.getElementById("permission-code");
+      const registerMessage = document.getElementById("register-message");
+      const registerSubmitButton = document.getElementById("register-submit");
+
+      const legacyToken = localStorage.getItem("smrToken");
+      if (legacyToken && !localStorage.getItem(TOKEN_KEY)) {
+        localStorage.setItem(TOKEN_KEY, legacyToken);
+      }
+
+      function setMessage(text, tone) {
+        const tones = {
+          neutral: "text-slate-400",
+          success: "text-green-500",
+          error: "text-red-500",
+        };
+        message.textContent = text;
+        message.className = `text-xs font-medium min-h-5 ${tones[tone || "neutral"]}`;
+      }
+
+      function setRegisterMessage(text, tone) {
+        const tones = {
+          neutral: "text-slate-400",
+          success: "text-green-500",
+          error: "text-red-500",
+        };
+        registerMessage.textContent = text;
+        registerMessage.className = `text-xs font-medium min-h-5 ${tones[tone || "neutral"]}`;
+      }
+
+      function showRegisterPanel() {
+        loginSection.classList.add("hidden");
+        registerSection.classList.remove("hidden");
+        setMessage("", "neutral");
+        setRegisterMessage("", "neutral");
+      }
+
+      function showLoginPanel() {
+        registerSection.classList.add("hidden");
+        loginSection.classList.remove("hidden");
+        setRegisterMessage("", "neutral");
+      }
+
+      showRegisterButton.addEventListener("click", showRegisterPanel);
+      backToLoginButton.addEventListener("click", showLoginPanel);
+
+      sendPermissionButton.addEventListener("click", async function () {
+        const approverEmail = approverEmailInput.value.trim();
+        if (!approverEmail) {
+          setRegisterMessage("Enter approver Gmail first.", "error");
+          return;
+        }
+
+        setRegisterMessage("Sending permission code to Gmail...", "neutral");
+        sendPermissionButton.disabled = true;
+
+        try {
+          const response = await fetch("/api/send-permission-code", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              approverEmail,
+            }),
+          });
+
+          const data = await response.json().catch(function () {
+            return { ok: false, error: "Unexpected server response." };
+          });
+
+          if (!response.ok || !data.ok) {
+            throw new Error(data.error || "Unable to send permission code.");
+          }
+
+          setRegisterMessage("Permission code sent. Check approver Gmail inbox.", "success");
+          permissionCodeInput.focus();
+        } catch (error) {
+          setRegisterMessage(error.message, "error");
+        } finally {
+          sendPermissionButton.disabled = false;
+        }
+      });
+
+      togglePasswordButton.addEventListener("click", function () {
+        const isHidden = passwordInput.type === "password";
+        passwordInput.type = isHidden ? "text" : "password";
+        passwordIcon.textContent = isHidden ? "visibility" : "visibility_off";
+      });
+
+      loginForm.addEventListener("submit", async function (event) {
+        event.preventDefault();
+        const loginId = loginIdInput.value.trim();
+        const password = passwordInput.value.trim();
+        if (!loginId || !password) {
+          setMessage("Enter both Login ID and password.", "error");
+          return;
+        }
+
+        setMessage("Verifying operator credentials...", "neutral");
+        submitButton.disabled = true;
+
+        try {
+          const response = await fetch("/api/login", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ loginId, password }),
+          });
+
+          const data = await response.json().catch(function () {
+            return { ok: false, error: "Unexpected server response." };
+          });
+
+          if (!response.ok || !data.ok) {
+            throw new Error(data.error || "Unable to authenticate.");
+          }
+
+          localStorage.setItem(TOKEN_KEY, data.token);
+          localStorage.setItem(USER_KEY, data.user && data.user.loginId ? data.user.loginId : loginId);
+
+          setMessage("Authentication successful. Redirecting...", "success");
+          setTimeout(function () {
+            window.location.href = "/dashboard";
+          }, 300);
+        } catch (error) {
+          localStorage.removeItem(TOKEN_KEY);
+          localStorage.removeItem(USER_KEY);
+          setMessage(error.message, "error");
+        } finally {
+          submitButton.disabled = false;
+        }
+      });
+
+      registerForm.addEventListener("submit", async function (event) {
+        event.preventDefault();
+        const displayName = registerNameInput.value.trim();
+        const loginId = registerLoginIdInput.value.trim();
+        const password = registerPasswordInput.value.trim();
+        const approverEmail = approverEmailInput.value.trim();
+        const permissionCode = permissionCodeInput.value.trim();
+
+        if (!displayName || !loginId || !password || !approverEmail || !permissionCode) {
+          setRegisterMessage("Fill all fields to create account.", "error");
+          return;
+        }
+
+        setRegisterMessage("Verifying permission and creating account...", "neutral");
+        registerSubmitButton.disabled = true;
+
+        try {
+          const response = await fetch("/api/register", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              displayName,
+              loginId,
+              password,
+              approverEmail,
+              permissionCode,
+            }),
+          });
+
+          const data = await response.json().catch(function () {
+            return { ok: false, error: "Unexpected server response." };
+          });
+
+          if (!response.ok || !data.ok) {
+            throw new Error(data.error || "Unable to create account.");
+          }
+
+          setRegisterMessage("Account created. Login with your new credentials.", "success");
+          loginIdInput.value = loginId;
+          passwordInput.value = password;
+
+          setTimeout(function () {
+            showLoginPanel();
+            setMessage("New account ready. Please login.", "success");
+          }, 700);
+        } catch (error) {
+          setRegisterMessage(error.message, "error");
+        } finally {
+          registerSubmitButton.disabled = false;
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

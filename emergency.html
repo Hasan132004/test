@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>Emergency Control - Smart Mobility Robot</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+    rel="stylesheet"
+  />
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            primary: "#135bec",
+            "background-light": "#f6f6f8",
+            "background-dark": "#101622",
+            danger: "#ef4444",
+          },
+          fontFamily: {
+            display: ["Space Grotesk"],
+          },
+          borderRadius: {
+            DEFAULT: "0.25rem",
+            lg: "0.5rem",
+            xl: "0.75rem",
+            full: "9999px",
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    body {
+      font-family: "Space Grotesk", sans-serif;
+    }
+    .material-symbols-outlined {
+      font-variation-settings: "FILL" 0, "wght" 500, "GRAD" 0, "opsz" 24;
+    }
+  </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen flex flex-col lg:flex-row overflow-x-hidden">
+  <aside class="w-full lg:w-64 border-b lg:border-b-0 lg:border-r border-slate-200 dark:border-slate-800 flex flex-col justify-between bg-white dark:bg-background-dark">
+    <div class="flex flex-col gap-6 p-6">
+      <div class="flex gap-3 items-center">
+        <div class="bg-primary/20 rounded-full p-2 flex items-center justify-center">
+          <span class="material-symbols-outlined text-primary">precision_manufacturing</span>
+        </div>
+        <div class="flex flex-col">
+          <h1 class="text-slate-900 dark:text-white text-base font-bold leading-none">SMR-402</h1>
+          <p class="text-slate-500 dark:text-slate-400 text-xs mt-1">Industrial Mobility</p>
+        </div>
+      </div>
+      <nav class="flex flex-col gap-2">
+        <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-900 dark:text-white" href="/dashboard">
+          <span class="material-symbols-outlined">dashboard</span>
+          <p class="text-sm font-medium">Dashboard</p>
+        </a>
+        <div class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-danger text-white">
+          <span class="material-symbols-outlined">dangerous</span>
+          <p class="text-sm font-medium">Emergency Stop</p>
+        </div>
+        <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-900 dark:text-white" href="/project-detail">
+          <span class="material-symbols-outlined">description</span>
+          <p class="text-sm font-medium">Project Detail</p>
+        </a>
+      </nav>
+    </div>
+    <div class="p-6 mt-auto flex gap-3">
+      <button class="w-full flex items-center justify-center gap-2 rounded-lg h-11 bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white text-sm font-bold border border-slate-200 dark:border-slate-700 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors" id="refresh-button">
+        <span class="material-symbols-outlined text-sm">sync</span>
+        <span>Refresh</span>
+      </button>
+      <button class="w-full flex items-center justify-center gap-2 rounded-lg h-11 bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white text-sm font-bold border border-slate-200 dark:border-slate-700 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors" id="logout-button">
+        <span class="material-symbols-outlined text-sm">logout</span>
+        <span>Logout</span>
+      </button>
+    </div>
+  </aside>
+
+  <main class="flex-1 flex flex-col lg:h-screen overflow-y-auto">
+    <header class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 border-b border-slate-200 dark:border-slate-800 px-4 sm:px-8 py-4 bg-white dark:bg-background-dark sticky top-0 z-10">
+      <div class="flex flex-col gap-2">
+        <h2 class="text-slate-900 dark:text-white text-lg sm:text-xl font-bold tracking-tight">
+          Emergency Control Panel
+        </h2>
+        <div class="flex items-center gap-3">
+          <span class="px-2 py-1 rounded bg-danger/10 text-danger text-[10px] font-bold uppercase tracking-wider border border-danger/20 leading-none">
+            Critical Access
+          </span>
+          <span class="text-xs text-slate-500">Operator: <span class="font-semibold text-slate-300" id="operator-name">-</span></span>
+        </div>
+      </div>
+      <a class="inline-flex items-center justify-center gap-2 rounded-lg h-10 px-4 bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white text-sm font-bold border border-slate-200 dark:border-slate-700 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors" href="/dashboard">
+        <span class="material-symbols-outlined text-sm">arrow_back</span>
+        <span>Back to Dashboard</span>
+      </a>
+    </header>
+
+    <div class="p-4 sm:p-8 flex flex-col gap-6">
+      <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
+        <section class="xl:col-span-1 flex flex-col gap-4">
+          <div class="bg-white dark:bg-slate-900/50 p-6 rounded-xl border border-slate-200 dark:border-slate-800">
+            <h3 class="text-sm font-bold uppercase tracking-wider text-slate-500 mb-4">Robot Diagnostics</h3>
+            <div class="space-y-3 text-sm">
+              <div class="flex items-center justify-between">
+                <span class="text-slate-500">Operating Mode</span>
+                <span class="font-bold text-slate-900 dark:text-white" id="operating-mode">-</span>
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="text-slate-500">Current Location</span>
+                <span class="font-bold text-slate-900 dark:text-white" id="current-location">-</span>
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="text-slate-500">Battery</span>
+                <span class="font-bold text-slate-900 dark:text-white" id="battery-value">--%</span>
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="text-slate-500">Network</span>
+                <span class="font-bold text-slate-900 dark:text-white" id="latency-value">--ms</span>
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="text-slate-500">Emergency State</span>
+                <span class="font-bold text-danger" id="emergency-state-label">Inactive</span>
+              </div>
+            </div>
+          </div>
+          <div class="bg-white dark:bg-slate-900/50 p-6 rounded-xl border border-slate-200 dark:border-slate-800">
+            <p class="text-xs text-slate-500">Last Sync</p>
+            <p class="text-sm font-semibold text-slate-900 dark:text-white mt-1" id="last-updated">-</p>
+          </div>
+        </section>
+
+        <section class="xl:col-span-2">
+          <div class="bg-slate-50 dark:bg-slate-900/20 border border-slate-200 dark:border-slate-800 rounded-xl p-6 sm:p-8 max-w-3xl mx-auto w-full">
+            <div class="flex flex-col items-center gap-6">
+              <div class="text-center">
+                <h3 class="text-danger text-2xl font-black uppercase tracking-tight">Emergency Stop Control</h3>
+                <p class="text-slate-500 text-xs mt-1">Authentication required for command activation</p>
+              </div>
+
+              <form class="w-full flex flex-col gap-4" id="emergency-form">
+                <div class="flex flex-col gap-1.5">
+                  <label class="text-xs font-bold text-slate-500 uppercase px-1" for="emergency-password">Enter Security Password</label>
+                  <input class="w-full px-4 py-3 rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm focus:ring-2 focus:ring-danger focus:border-transparent outline-none transition-all" id="emergency-password" placeholder="Enter emergency password" type="password" />
+                </div>
+
+                <div class="flex items-center justify-between p-4 bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700">
+                  <div class="flex flex-col">
+                    <span class="text-sm font-bold">Emergency Shutdown Switch</span>
+                    <span class="text-xs text-slate-500">Toggle ON to engage emergency stop</span>
+                  </div>
+                  <label class="relative inline-flex items-center cursor-pointer">
+                    <input class="sr-only peer" id="emergency-toggle" type="checkbox" />
+                    <div class="w-14 h-7 bg-slate-200 peer-focus:outline-none dark:bg-slate-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all dark:border-gray-600 peer-checked:bg-danger"></div>
+                  </label>
+                </div>
+
+                <button class="w-full rounded-lg h-12 bg-danger hover:bg-red-600 text-white text-sm font-bold border border-red-400/30 disabled:opacity-50 disabled:cursor-not-allowed transition-colors" id="emergency-submit" type="submit">
+                  Apply Emergency Command
+                </button>
+                <p class="text-xs min-h-5 text-slate-500 text-center" id="emergency-message"></p>
+              </form>
+            </div>
+          </div>
+        </section>
+      </div>
+
+    </div>
+  </main>
+
+  <script>
+    (function () {
+      const TOKEN_KEY = "smrSessionToken";
+      const USER_KEY = "smrSessionUser";
+
+      const token = localStorage.getItem(TOKEN_KEY) || localStorage.getItem("smrToken");
+      if (!token) {
+        window.location.replace("/");
+        return;
+      }
+      if (!localStorage.getItem(TOKEN_KEY)) {
+        localStorage.setItem(TOKEN_KEY, token);
+      }
+
+      const refs = {
+        operatorName: document.getElementById("operator-name"),
+        operatingMode: document.getElementById("operating-mode"),
+        currentLocation: document.getElementById("current-location"),
+        batteryValue: document.getElementById("battery-value"),
+        latencyValue: document.getElementById("latency-value"),
+        emergencyStateLabel: document.getElementById("emergency-state-label"),
+        emergencyForm: document.getElementById("emergency-form"),
+        emergencyPassword: document.getElementById("emergency-password"),
+        emergencyToggle: document.getElementById("emergency-toggle"),
+        emergencySubmit: document.getElementById("emergency-submit"),
+        emergencyMessage: document.getElementById("emergency-message"),
+        refreshButton: document.getElementById("refresh-button"),
+        logoutButton: document.getElementById("logout-button"),
+        lastUpdated: document.getElementById("last-updated"),
+      };
+
+      refs.operatorName.textContent = localStorage.getItem(USER_KEY) || "operator";
+
+      function clearSessionAndRedirect() {
+        localStorage.removeItem(TOKEN_KEY);
+        localStorage.removeItem("smrToken");
+        localStorage.removeItem(USER_KEY);
+        window.location.href = "/";
+      }
+
+      function setEmergencyMessage(text, tone) {
+        const tones = {
+          neutral: "text-slate-500",
+          success: "text-green-500",
+          error: "text-red-500",
+        };
+        refs.emergencyMessage.textContent = text;
+        refs.emergencyMessage.className = `text-xs min-h-5 text-center ${tones[tone || "neutral"]}`;
+      }
+
+      function formatTimestamp(value) {
+        if (!value) return "-";
+        const date = new Date(value);
+        if (Number.isNaN(date.getTime())) return "-";
+        return `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
+      }
+
+      async function loadStatus(silent) {
+        if (!silent) {
+          refs.lastUpdated.textContent = "Syncing...";
+        }
+
+        const response = await fetch("/api/status", {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem(TOKEN_KEY)}`,
+          },
+        });
+
+        const data = await response.json().catch(function () {
+          return { ok: false, error: "Unable to read server status response." };
+        });
+
+        if (response.status === 401) {
+          clearSessionAndRedirect();
+          return;
+        }
+
+        if (!response.ok || !data.ok) {
+          throw new Error(data.error || "Status refresh failed.");
+        }
+
+        refs.operatingMode.textContent = data.operatingMode || "-";
+        refs.currentLocation.textContent = data.currentLocation || "-";
+        refs.batteryValue.textContent = `${data.batteryPercent}%`;
+        refs.latencyValue.textContent = `${data.networkLatencyMs}ms`;
+        refs.emergencyToggle.checked = Boolean(data.emergencyState && data.emergencyState.active);
+        refs.emergencyStateLabel.textContent = refs.emergencyToggle.checked ? "Active" : "Inactive";
+        refs.lastUpdated.textContent = formatTimestamp(data.lastUpdated);
+      }
+
+      async function submitEmergency(event) {
+        event.preventDefault();
+        refs.emergencySubmit.disabled = true;
+        setEmergencyMessage("Applying emergency command...", "neutral");
+
+        const payload = {
+          activate: refs.emergencyToggle.checked,
+          securityPassword: refs.emergencyPassword.value.trim(),
+        };
+
+        try {
+          const response = await fetch("/api/emergency-stop", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${localStorage.getItem(TOKEN_KEY)}`,
+            },
+            body: JSON.stringify(payload),
+          });
+
+          const data = await response.json().catch(function () {
+            return { ok: false, error: "Unable to read emergency response." };
+          });
+
+          if (response.status === 401) {
+            clearSessionAndRedirect();
+            return;
+          }
+
+          if (!response.ok || !data.ok) {
+            throw new Error(data.error || "Emergency command failed.");
+          }
+
+          setEmergencyMessage(data.message, "success");
+          refs.emergencyPassword.value = "";
+          await loadStatus(true);
+        } catch (error) {
+          setEmergencyMessage(error.message, "error");
+        } finally {
+          refs.emergencySubmit.disabled = false;
+        }
+      }
+
+      refs.emergencyForm.addEventListener("submit", submitEmergency);
+      refs.refreshButton.addEventListener("click", function () {
+        loadStatus(false).catch(function (error) {
+          setEmergencyMessage(error.message, "error");
+        });
+      });
+      refs.logoutButton.addEventListener("click", clearSessionAndRedirect);
+
+      loadStatus(false).catch(function (error) {
+        refs.lastUpdated.textContent = error.message;
+      });
+      setInterval(function () {
+        loadStatus(true).catch(function () {});
+      }, 15000);
+    })();
+  </script>
+</body>
+</html>
